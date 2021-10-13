@@ -28,3 +28,15 @@ def gaussian_smooth(data: list, sigma: int, att='closePrice'):
         return data
     except ValueError as e:
         print("Bad Request")
+
+
+def gaussian_smooth_typical_price(data: list, sigma: int):
+    try:
+        prices = np.array([((float(kline['highestPrice'])+float(
+            kline['lowestPrice'])+float(kline['closePrice']))/3) for kline in data])
+        gfs = gaussian_filter(prices, sigma, 0)
+        for index, kline in enumerate(data):
+            data[index]['gfs'] = gfs[index]
+        return data
+    except ValueError as e:
+        print("Bad Request")
