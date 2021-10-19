@@ -30,7 +30,7 @@ class VolatilityRouter():
         def memory_volatility_bands():
             data = request.json
             klines = data['klines']
-            sigma = data['sigma'] if 'sigma' in data else 0
+            sigma = int(data['sigma']) if 'sigma' in data else 0
             res = gaussian_smooth_typical_price(klines, sigma)
             res = max_min_locals(res, 'gfs')
             res = {
